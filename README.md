@@ -1,7 +1,6 @@
-# Cisco ESA TLS Analyzer
+# Cisco ISE Root Access
 
-This repository contains a python script which fetches Cisco ESA (Email Security Appliance) mail_logs via FTP, parses them to analyze and display the use of different tls versions and ciphers in diagrams. 
-
+This repository contains a bash script which allows to escape the CARS vshell of Cisco ISE and therefore allows root access without root patch which is normally needed to do change configurations on the file system or databases. 
 
 ## Run TLS Analyzer
 
