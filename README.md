@@ -1,6 +1,6 @@
 # Cisco ISE Root Access
 
-This repository contains a bash script which allows to escape the CARS vshell of Cisco ISE and therefore allows root access without root patch. Normally TAC is needed to change configurations on the file system or databases. 
+This repository contains a bash script which allows to escape the CARS vshell of Cisco ISE and therefore allows root access without root patch. Normally TAC is needed to do configuration changes on the file system or databases. 
 
 ## Get Root Access
 
