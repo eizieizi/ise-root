@@ -1,0 +1,26 @@
+#!/bin/bash
+###############################################################################
+#  Remove ISE Root
+#
+#  Max Eizenberger
+#  max.eizenberger@nts.eu
+#
+###############################################################################
+
+echo -e "This Script removes all, from the Script Get ISE Root created root users which were not intended by Cisco \n"
+
+if [ -d /storedconfig/rootaccess_restore/ ]; then
+	
+	#Create backup location on ISE config partition
+	echo "Restoring /etc/shadow /etc/passwd and /etc/sudoers Backup Files"
+	
+	yes | cp /storedconfig/rootaccess_restore/shadow /etc/
+	yes | cp /storedconfig/rootaccess_restore/passwd /etc/
+	yes | cp /storedconfig/rootaccess_restore/sudoers /etc/
+
+	yes | cp /storedconfig/rootaccess_restore/shadow /storedconfig/active/etc
+	yes | cp /storedconfig/rootaccess_restore/passwd /storedconfig/active/etc
+
+	#rm -rf /storedconfig/rootaccess_restore
+fi
+
