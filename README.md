@@ -30,7 +30,36 @@ The whole Script is tested with Ubuntu 20.04 as Live CD and ISE 3.1
 
 
   ```sh
-Import Output of Successful Scrip execution 
+root@ubuntu:/tmp# ./getroot.sh
+Check manually with the output of lsblk below if File System of ISE is show as /                                                                                                                                                             dev/sda2 and /dev/sda3 - if not, abort because the script will not work
+
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+fd0      2:0    1     4K  0 disk
+loop0    7:0    0     2G  1 loop /rofs
+loop1    7:1    0  55.4M  1 loop /snap/core18/2128
+loop2    7:2    0   219M  1 loop /snap/gnome-3-34-1804/72
+loop3    7:3    0  65.1M  1 loop /snap/gtk-common-themes/1515
+loop4    7:4    0  32.3M  1 loop /snap/snapd/12704
+loop5    7:5    0    51M  1 loop /snap/snap-store/547
+sda      8:0    0   600G  0 disk
+├─sda1   8:1    0  1000M  0 part
+├─sda2   8:2    0  17.6G  0 part
+├─sda3   8:3    0   100M  0 part
+├─sda4   8:4    0     1K  0 part
+├─sda5   8:5    0   7.8G  0 part [SWAP]
+├─sda6   8:6    0     2G  0 part
+└─sda7   8:7    0 571.6G  0 part
+sr0     11:0    1   2.9G  0 rom  /cdrom
+
+
+Enter the desired root username: eizi-adm
+Enter the desired root password: Creating Backup Files
+[root@ubuntu /]# useradd eizi-adm
+[root@ubuntu /]# groupadd "root-users"
+[root@ubuntu /]# usermod -a -G "root-users" eizi-adm
+[root@ubuntu /]# echo "eizi-adm:******" | chpasswd
+[root@ubuntu /]# echo "eizi-adm ALL=(ALL:ALL) ALL" >> /etc/sudoers
+[root@ubuntu /]# exit
 ```
 
 
