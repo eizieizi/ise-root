@@ -53,7 +53,8 @@ sr0     11:0    1   2.9G  0 rom  /cdrom
 
 
 Enter the desired root username: eizi-adm
-Enter the desired root password: Creating Backup Files
+Enter the desired root password: ********
+Creating Backup Files
 [root@ubuntu /]# useradd eizi-adm
 [root@ubuntu /]# groupadd "root-users"
 [root@ubuntu /]# usermod -a -G "root-users" eizi-adm
