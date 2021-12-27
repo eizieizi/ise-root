@@ -56,8 +56,6 @@ Enter the desired root username: eizi-adm
 Enter the desired root password: ********
 Creating Backup Files
 [root@ubuntu /]# useradd eizi-adm
-[root@ubuntu /]# groupadd "root-users"
-[root@ubuntu /]# usermod -a -G "root-users" eizi-adm
 [root@ubuntu /]# echo "eizi-adm:******" | chpasswd
 [root@ubuntu /]# echo "eizi-adm ALL=(ALL:ALL) ALL" >> /etc/sudoers
 [root@ubuntu /]# exit
