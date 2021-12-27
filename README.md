@@ -55,6 +55,6 @@ sr0     11:0    1  1024M  0 rom
 
 ISE has 2 important partitins for Root Access - /dev/sda2 is the root fileystem. The Script creates the root users here but also needs to copy /etc/passwd and /etc/shadow to /dev/sda3/startup-config-*/etc which holds the ISE CARS Application Configuration.
 
-On a normal running ISE, /dev/sda3 is mounted into /storedconfig.
+On a normal running ISE,  /dev/sda3 is mounted into /storedconfig.
 
 
