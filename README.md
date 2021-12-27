@@ -6,6 +6,7 @@ This repository contains a bash script which allows to escape the CARS vshell of
 
 Root access is only possible with physical/virtual access to the ISE Nodes.
 It is necessary to start a live CD and execute the supplied script from there.
+
 Basically, the script mounts the /dev/sda2 (Root) and /dev/sda3 (persisting configuration) partitions of ISE, creates a backup of 
 
 
