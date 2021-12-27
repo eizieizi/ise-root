@@ -4,7 +4,8 @@ This repository contains a bash script which allows to escape the CARS vshell of
 
 ## Get Root Access
 
-Root access is only possible with physical/virtual access to the ISE Nodes because it is necessary to start a live CD and execute the script from there.
+Root access is only possible with physical/virtual access to the ISE Nodes.
+It is necessary to start a live CD and execute the supplied script from there.
 Basically, the script mounts the /dev/sda2 (Root) and /dev/sda3 (persisting configuration) partitions of ISE, creates a backup of 
 
 
@@ -14,7 +15,7 @@ Basically, the script mounts the /dev/sda2 (Root) and /dev/sda3 (persisting conf
 /etc/shadow
 ```
 
-to /dev/sda3/rootaccess_restore/ and afterwards adds a new root user with the supplied User & Pass. The Backup is only created at the first time the script is executed, to be able to restore to a non-rooted vanilla ISE.
+to /dev/sda3/rootaccess_restore/ and afterwards adds a new user with the supplied User & Pass, changes the Standard Shell (/opt/system/bin/carssh.sh) to /bin/bash and adds the new user to the sudoers file. The Backup is only created at the first time the script is executed, to be able to restore to a non-rooted vanilla ISE.
 
 
 The whole Script is tested with Ubuntu 20.04 as Live CD and ISE 3.1
