@@ -40,7 +40,7 @@ fi
 
 #Change create User, add password and add sudoers entry
 cat << EOF | chroot /tmp/ise/sda2
-useradd $USERNAME
+useradd $USERNAME --no-create-home username
 echo "$USERNAME:$PASSWORD" | chpasswd
 echo "$USERNAME 	ALL=(ALL:ALL) ALL" >> /etc/sudoers
 EOF
