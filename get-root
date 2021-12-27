@@ -1,0 +1,57 @@
+###############################################################################
+#  Get ISE Root
+#
+#  Max Eizenberger
+#  Version 1.0
+#  max.eizenberger@nts.eu
+#
+###############################################################################
+
+echo -e "Check manually with the output of lsblk below if File System of ISE is show as /dev/sda2 and /dev/sda3 - if not, abort because the script will not work \n"
+lsblk
+
+echo -e "\n"
+
+read -p "Enter the desired root username: " USERNAME
+read -sp "Enter the desired root password: " PASSWORD
+
+
+#Create temporary mountpoints
+mkdir -p /tmp/ise/sda2
+mkdir -p /tmp/ise/sda3
+
+#Mount ISE root partition
+mount /dev/sda2 /tmp/ise/sda2
+mount /dev/sda3 /tmp/ise/sda3
+
+
+#Backup the current /etc/passwd and /etc/shadow and /etc sudoers for restore of original non-root access - but only when the script is executed the first time on the node to prevent overriding the default ISE config!!!
+
+if [ ! -f /tmp/ise/sda3/rootaccess_restore/ ] ; then
+	
+	#Create backup location on ISE config partition
+	echo "Creating Backup Files"
+	mkdir -p /tmp/ise/sda3/rootaccess_restore
+	
+	yes | cp /tmp/ise/sda2/etc/shadow /tmp/ise/sda3/rootaccess_restore/
+	yes | cp /tmp/ise/sda2/etc/passwd /tmp/ise/sda3/rootaccess_restore/
+	yes | cp /tmp/ise/sda2/etc/sudoers /tmp/ise/sda3/rootaccess_restore/
+fi
+
+#Change create User, add password and add sudoers entry
+cat << EOF | chroot /tmp/ise/sda2
+useradd $USERNAME
+echo "$USERNAME:$PASSWORD" | chpasswd
+echo "$USERNAME 	ALL=(ALL:ALL) ALL" >> /etc/sudoers
+EOF
+
+#Copy the new shadow and passwd file to the stored config partition of ISE to get persistance
+yes | cp /tmp/ise/sda2/etc/shadow /tmp/ise/sda3/startup-config-*/etc
+yes | cp /tmp/ise/sda2/etc/passwd /tmp/ise/sda3/startup-config-*/etc
+
+
+#Umount the devices
+umount /tmp/ise/sda2
+umount /tmp/ise/sda3
+rm -r /tmp/ise
+#Finish
