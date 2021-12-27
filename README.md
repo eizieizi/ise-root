@@ -1,36 +1,53 @@
 # Cisco ISE Root Access
 
-This repository contains a bash script which allows to escape the CARS vshell of Cisco ISE and therefore allows root access without root patch which is normally needed to do change configurations on the file system or databases. 
+This repository contains a bash script which allows to escape the CARS vshell of Cisco ISE and therefore allows root access without root patch. Normally TAC is needed to change configurations on the file system or databases. 
 
-## Run TLS Analyzer
+## Get Root Access
 
-Execute the script (only tested on Linux Mint 20.1) in your working directory, it will create a subfolder called "logs" and download the logs from ESA after supplying credentials and hostname. 
+Root access is only possible with physical/virtual access to the ISE Nodes because it is necessary to start a live CD and execute the script from there.
+Basically, the script mounts the /dev/sda2 (Root) and /dev/sda3 (persisting configuration) partitions of ISE, creates a backup of 
 
-You can also manually create a logs folder in the working directory and copy the logs manually into the folder to skip automatic download. The Script will ask you if you would like to use the existing logs. 
 
   ```sh
-test@test-pc:~/Documents/Python/esa-tls-analyzer$ python3 /home/test/Documents/Python/esa-tls-analyzer/esa-tls-analyzer.py
-./logs folder not existing, creating
-Downloading Logs from ESA
-Please enter ESA Hostname for FTP Login (for example: esa01.test.at): esa01.test.at
-Please enter ESA Admin Username: admin
-Please enter ESA Admin Password: 
-Downloading File: mail.@20190516T183759.c
-Downloading File: mail_logs.@20210228T173106.s
-Downloading File: mail.@20190516T185309.s
-Downloading File: mail_logs_text.@20190517T084759.s
-Downloading File: mail_logs.@20200607T174936.s
-Downloading File: mail_logs.@20201213T195441.s
-Downloading File: mail_logs.current
-Downloading File: mail_logs.@20200818T173344.s
-Downloading File: mail_logs.@20210315T233403.c
-Downloading File: mail_logs.@20200912T180853.s
-Downloading File: mail_logs.@20201018T123644.s
-Downloading File: mail_logs.@20201119T090259.s
-Downloading File: mail_logs.@20210216T045532.s
-Downloading File: mail_logs.@20210226T125825.c
-
- Would you like to re-use existing Logs? If answering no, the script will fetch logs via FTP from ESA yes/no: yes
+/etc/sudoers 
+/etc/passwd
+/etc/shadow
 ```
-![TLS-Versions](/images/used_tls_versions.png)
-![Cipher-Versions](/images/used_tls_ciphers.png)
+
+to /dev/sda3/rootaccess_restore/ and afterwards adds a new root user with the supplied User & Pass. The Backup is only created at the first time the script is executed, to be able to restore to a non-rooted vanilla ISE.
+
+
+The whole Script is tested with Ubuntu 20.04 as Live CD and ISE 3.1
+
+
+
+  ```sh
+Import Output of Successful Scrip execution 
+```
+
+
+
+### Partitons of ISE & Logic of Script
+
+ISE uses 3 important partitions 
+
+  ```sh
+
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda      8:0    0   600G  0 disk
+├─sda1   8:1    0  1000M  0 part /boot
+├─sda2   8:2    0  17.6G  0 part /
+├─sda3   8:3    0   100M  0 part /storedconfig
+├─sda4   8:4    0     1K  0 part
+├─sda5   8:5    0   7.8G  0 part [SWAP]
+├─sda6   8:6    0     2G  0 part /tmp
+└─sda7   8:7    0 571.6G  0 part /opt
+sr0     11:0    1  1024M  0 rom
+
+```
+
+ISE has 2 important partitins for Root Access - /dev/sda2 is the root fileystem. The Script creates the root users here but has also to copy  /etc/passwd and /etc/shadow to /dev/sda3 which holds the ISE CARS Application Configuration.
+
+On ISE, /dev/sda3 is mounted into /storedconfig.
+
+
