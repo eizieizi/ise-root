@@ -42,8 +42,6 @@ fi
 #Change create User, add password and add sudoers entry
 cat << EOF | chroot /tmp/ise/sda2
 useradd $USERNAME
-groupadd "root-users"
-usermod -a -G "root-users" $USERNAME
 echo "$USERNAME:$PASSWORD" | chpasswd
 echo "$USERNAME 	ALL=(ALL:ALL) ALL" >> /etc/sudoers
 EOF
